@@ -1,5 +1,5 @@
-region        = "ap-south-1"
-ami_id        = "ami-06f621d90fa29f6d0"
+region        = "us-east-1"
+ami_id        = "ami-0b72821e2f351e396"
 instance_type = "t2.micro"
 key_name      = "amrutnaturals"
 main_cidr     = "10.0.0.0/16"
