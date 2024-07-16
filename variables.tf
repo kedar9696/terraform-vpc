@@ -4,6 +4,14 @@ variable "region" {
   default     = "ap-south-1" # Default to a specific region
 }
 
+variable "accesskey" {
+  description = "AWS accesskey"
+}
+
+variable "secretaccesskey" {
+  description = "AWS secret access key"
+}
+
 variable "ami_id" {
   description = "ID of the AMI to use for instances"
 }
