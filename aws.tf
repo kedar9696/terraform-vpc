@@ -193,7 +193,7 @@ resource "aws_instance" "webserver" {
   security_groups = [aws_security_group.SG-1.id]
   subnet_id       = aws_subnet.terraform-pub-sub.id
   key_name        = var.key_name
-  user_data       = file("/home/kedar/aws/userdata-script-ec2-webserver.sh")
+#  user_data       = file("/home/kedar/aws/userdata-script-ec2-webserver.sh")
   tags = {
     Name = "${local.name_env}-webserver"
   }
