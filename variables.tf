@@ -1,7 +1,7 @@
 variable "region" {
   description = "AWS region where resources will be created"
   type        = string  
-  default     = "ap-south-1" # Default to a specific region
+  default     = "us-east-1" # Default to a specific region
 }
 
 variable "accesskey" {
