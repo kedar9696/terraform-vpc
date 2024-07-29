@@ -10,12 +10,6 @@ output "webserver_instance_ami_is" {
   value = aws_instance.webserver.ami
 }
 
-# Output DBserver instance AMI ID
-
-output "DBserver_instance_ami_is" {
-  value = aws_instance.DBserver.ami
-}
-
 # Output webserver instance public ip
 
 output "webserver_instance_public_ip_is" {
@@ -55,9 +49,4 @@ output "security_group_id" {
 # Output Webserver Instance ID
 output "webserver_instance_id" {
   value = aws_instance.webserver.id
-}
-
-# Output DBserver Instance ID
-output "dbserver_instance_id" {
-  value = aws_instance.DBserver.id
 }

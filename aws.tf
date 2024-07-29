@@ -4,6 +4,15 @@ locals {
   name_env = "HDFC"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "terraform-gra"
+    key    = "gra/terraform.tfstate"  #name of the S3 object that will store the state file
+    region = "ap-south-1"
+    dynamodb_table = "terraform"
+  }
+}
+
 # VPC Configuration
 
 resource "aws_vpc" "terraform-vpc" {
@@ -87,62 +96,6 @@ resource "aws_route_table_association" "pubrtassociation" {
   route_table_id = aws_route_table.terraform-pubrt.id
 }
 
-/*
-# Create a elastic ip for nat gateway
-
-resource "aws_eip" "nateip" {
-  depends_on = [aws_internet_gateway.terraform-gw]
-
-  tags = {
-    Name = "${local.name_env}-natEip"
-  }
-}
-
-# Create a NAT GAteway for private subnet
-
-resource "aws_nat_gateway" "natgw" {
-  allocation_id = aws_eip.nateip.id
-  subnet_id     = aws_subnet.terraform-pub-sub.id
-
-  depends_on = [
-    aws_eip.nateip
-  ]
-  tags = {
-    Name = "${local.name_env}-natgw"
-  }
-}
-
-
-# Create Route table for NAT Gateway
-
-resource "aws_route_table" "natrt" {
-
-  depends_on = [
-    aws_nat_gateway.natgw
-  ]
-  vpc_id = aws_vpc.terraform-vpc.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.natgw.id
-  }
-
-  tags = {
-    Name = "${local.name_env}-natrt"
-  }
-}
-
-# Associating the NAT Route table for NAT Gateway to Public Subnet!
-
-resource "aws_route_table_association" "natrtassociation" {
-
-  depends_on = [
-    aws_route_table.natrt
-  ]
-  subnet_id      = aws_subnet.terraform-priv-sub.id
-  route_table_id = aws_route_table.natrt.id
-}
-*/
 # Creating a security group with ssh,http,https and icmp
 
 resource "aws_security_group" "SG-1" {
@@ -193,30 +146,8 @@ resource "aws_instance" "webserver" {
   security_groups = [aws_security_group.SG-1.id]
   subnet_id       = aws_subnet.terraform-pub-sub.id
   key_name        = var.key_name
-#  user_data       = file("/home/kedar/aws/userdata-script-ec2-webserver.sh")
   tags = {
     Name = "${local.name_env}-webserver"
   }
 }
 
-# Creating an AWS instance for the DBserver!
-
-resource "aws_instance" "DBserver" {
-  depends_on = [
-    aws_security_group.SG-1,
-    aws_subnet.terraform-priv-sub,
-    aws_subnet.terraform-pub-sub,
-    aws_vpc.terraform-vpc,
-    #aws_nat_gateway.natgw,
-    #aws_route_table_association.natrtassociation
-  ]
-
-  ami             = var.ami_id
-  instance_type   = var.instance_type
-  security_groups = [aws_security_group.SG-1.id]
-  subnet_id       = aws_subnet.terraform-priv-sub.id
-  key_name        = var.key_name
-  tags = {
-    Name = "${local.name_env}-DBserver"
-  }
-}
