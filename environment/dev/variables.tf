@@ -1,7 +1,7 @@
 variable "region" {
   description = "AWS region where resources will be created"
   type        = string  
-  default     = "us-east-1" # Default to a specific region
+  default     = "us-east-1"
 }
 
 variable "accesskey" {
@@ -43,3 +43,4 @@ variable "pub_sub_az" {
 variable "priv_sub_az" {
   description = "Availability zone for the private subnet"
 }
+
