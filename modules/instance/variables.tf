@@ -13,9 +13,13 @@ variable "security_group_id" {
   type        = string
 }
 
-variable "public_subnet_id" {
+variable "subnet_id" {
   description = "The public subnet ID"
   type        = string
+}
+
+variable "public_ip" {
+  description = "associate_public_ip_address or not"
 }
 
 variable "key_name" {
