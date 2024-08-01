@@ -1,7 +1,8 @@
 module "vpc" {
-  source     = "../../modules/vpc"
-  cidr_block = var.main_cidr
-  name       = "HDFC"
+  source             = "../../modules/vpc"
+  cidr_block         = var.main_cidr
+  enable_dns_support = var.enable_dns_support
+  name               = "HDFC"
 }
 
 module "subnets" {
@@ -64,7 +65,7 @@ module "security_group" {
 
 # Webserver Instance
 module "webserver_instance" {
-  source            = "../../modules/instance"
+  source            = "../../modules/ec2"
   ami_id            = var.ami_id
   instance_type     = var.instance_type
   security_group_id = module.security_group.security_group_id
@@ -76,7 +77,7 @@ module "webserver_instance" {
 
 # DBserver Instance
 module "Dbserver_instance" {
-  source            = "../../modules/instance"
+  source            = "../../modules/ec2"
   ami_id            = var.ami_id
   instance_type     = var.instance_type
   security_group_id = module.security_group.security_group_id

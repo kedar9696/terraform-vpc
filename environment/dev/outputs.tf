@@ -2,6 +2,14 @@ output "vpc_id" {
   value = module.vpc.vpc_id
 }
 
+output "default_route_table_id" {
+  value = module.vpc.default_route_table_id
+}
+
+output "main_route_table_id" {
+  value = module.vpc.main_route_table_id
+}
+
 output "public_subnet_id" {
   value = module.subnets.public_subnet_id
 }
@@ -55,4 +63,3 @@ output "Dbserver_instance_id" {
 output "Dbserver_instance_private_ip" {
   value = module.Dbserver_instance.instance_private_ip
 }
-

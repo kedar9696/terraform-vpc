@@ -20,6 +20,12 @@ variable "instance_type" {
   description = "Instance type for EC2 instances"
 }
 
+variable "enable_dns_support" {
+  description = "Should be true to enable DNS support in the VPC"
+  type        = bool
+  default     = true
+}
+
 variable "key_name" {
   description = "Name of the SSH key pair for EC2 instances"
 }

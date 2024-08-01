@@ -8,3 +8,8 @@ variable "name" {
   type        = string
 }
 
+variable "enable_dns_support" {
+  description = "Should be true to enable DNS support in the VPC"
+  type        = bool
+  default     = true
+}
