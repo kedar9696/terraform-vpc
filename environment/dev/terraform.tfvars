@@ -1,4 +1,5 @@
 region             = "ap-south-1"
+name               = "HDFC"
 ami_id             = "ami-068e0f1a600cd311c"
 instance_type      = "t2.micro"
 enable_dns_support = "true"
@@ -8,4 +9,3 @@ public_cidr        = "10.0.1.0/24"
 private_cidr       = "10.0.2.0/24"
 pub_sub_az         = "ap-south-1a"
 priv_sub_az        = "ap-south-1b"
-

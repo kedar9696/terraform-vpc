@@ -8,13 +8,10 @@ variable "internet_gateway_id" {
   type        = string
 }
 
-variable "public_subnet_id" {
-  description = "The public subnet ID"
-  type        = string
-}
-
 variable "name" {
   description = "Environment name"
   type        = string
 }
+
+
 

@@ -20,6 +20,7 @@ variable "subnet_id" {
 
 variable "public_ip" {
   description = "associate_public_ip_address or not"
+  type = string
 }
 
 variable "key_name" {

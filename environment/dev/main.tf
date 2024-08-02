@@ -2,7 +2,7 @@ module "vpc" {
   source             = "../../modules/vpc"
   cidr_block         = var.main_cidr
   enable_dns_support = var.enable_dns_support
-  name               = "HDFC"
+  name               = var.name
 }
 
 module "subnets" {
@@ -12,21 +12,21 @@ module "subnets" {
   private_cidr = var.private_cidr
   pub_sub_az   = var.pub_sub_az
   priv_sub_az  = var.priv_sub_az
-  name         = "HDFC"
+  name         = var.name
 }
 
 module "internet_gateway" {
   source = "../../modules/internet_gateway"
   vpc_id = module.vpc.vpc_id
-  name   = "HDFC"
+  name   = var.name
 }
 
 module "igw_route_table" {
   source              = "../../modules/route_table"
   vpc_id              = module.vpc.vpc_id
   internet_gateway_id = module.internet_gateway.internet_gateway_id
-  public_subnet_id    = module.subnets.public_subnet_id
-  name                = "HDFC"
+  #public_subnet_id    = module.subnets.public_subnet_id
+  name = var.name
 }
 
 # Associate Public Subnet with igw Route Table
@@ -39,14 +39,14 @@ resource "aws_route_table_association" "public" {
 module "nat_gateway" {
   source           = "../../modules/nat_gateway"
   public_subnet_id = module.subnets.public_subnet_id
-  name             = "HDFC"
+  name             = var.name
 }
 
 module "nat_route_table" {
   source         = "../../modules/nat_route_table"
   vpc_id         = module.vpc.vpc_id
   nat_gateway_id = module.nat_gateway.nat_gateway_id
-  name           = "HDFC"
+  name           = var.name
 }
 
 # Associating the NAT Route table for NAT Gateway to Public Subnet!
@@ -60,7 +60,7 @@ module "security_group" {
   source        = "../../modules/security_group"
   vpc_id        = module.vpc.vpc_id
   ingress_ports = [80, 443, 22, 0]
-  name          = "HDFC"
+  name          = var.name
 }
 
 # Webserver Instance
@@ -72,7 +72,7 @@ module "webserver_instance" {
   subnet_id         = module.subnets.public_subnet_id
   key_name          = var.key_name
   public_ip         = true
-  name              = "HDFC-Webserver"
+  name              = "${var.name}-Webserver"
 }
 
 # DBserver Instance
@@ -84,5 +84,5 @@ module "Dbserver_instance" {
   subnet_id         = module.subnets.private_subnet_id
   key_name          = var.key_name
   public_ip         = false
-  name              = "HDFC-DBserver"
+  name              = "${var.name}-DBserver"
 }

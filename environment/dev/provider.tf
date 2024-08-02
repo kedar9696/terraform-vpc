@@ -1,6 +1,16 @@
+terraform {
+  required_version = "1.9.3"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.60.0"
+    }
+  }
+}
+
 provider "aws" {
   region     = var.region
-  access_key = var.accesskey
-  secret_key = var.secretaccesskey
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
 }
 
