@@ -11,11 +11,11 @@ output "main_route_table_id" {
 }
 
 output "public_subnet_id" {
-  value = module.subnets.public_subnet_id
+  value = module.subnet.public_subnet_id
 }
 
 output "private_subnet_id" {
-  value = module.subnets.private_subnet_id
+  value = module.subnet.private_subnet_id
 }
 
 output "internet_gateway_id" {

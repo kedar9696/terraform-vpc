@@ -5,7 +5,7 @@ module "vpc" {
   name               = var.name
 }
 
-module "subnets" {
+module "subnet" {
   source       = "../../modules/subnet"
   vpc_id       = module.vpc.vpc_id
   public_cidr  = var.public_cidr
@@ -32,13 +32,13 @@ module "igw_route_table" {
 # Associate Public Subnet with igw Route Table
 
 resource "aws_route_table_association" "public" {
-  subnet_id      = module.subnets.public_subnet_id
+  subnet_id      = module.subnet.public_subnet_id
   route_table_id = module.igw_route_table.public_route_table_id
 }
 
 module "nat_gateway" {
   source           = "../../modules/nat_gateway"
-  public_subnet_id = module.subnets.public_subnet_id
+  public_subnet_id = module.subnet.public_subnet_id
   name             = var.name
 }
 
@@ -52,7 +52,7 @@ module "nat_route_table" {
 # Associating the NAT Route table for NAT Gateway to Public Subnet!
 
 resource "aws_route_table_association" "natrtassociation" {
-  subnet_id      = module.subnets.private_subnet_id
+  subnet_id      = module.subnet.private_subnet_id
   route_table_id = module.nat_route_table.nat_route_table_id
 }
 
@@ -69,7 +69,7 @@ module "webserver_instance" {
   ami_id            = var.ami_id
   instance_type     = var.instance_type
   security_group_id = module.security_group.security_group_id
-  subnet_id         = module.subnets.public_subnet_id
+  subnet_id         = module.subnet.public_subnet_id
   key_name          = var.key_name
   public_ip         = true
   name              = "${var.name}-Webserver"
@@ -81,7 +81,7 @@ module "Dbserver_instance" {
   ami_id            = var.ami_id
   instance_type     = var.instance_type
   security_group_id = module.security_group.security_group_id
-  subnet_id         = module.subnets.private_subnet_id
+  subnet_id         = module.subnet.private_subnet_id
   key_name          = var.key_name
   public_ip         = false
   name              = "${var.name}-DBserver"
