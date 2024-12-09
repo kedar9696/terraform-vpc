@@ -1,11 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Get Git Branch') {
+        stage('Print Git Branch') {
             steps {
                 script {
-                    def branch = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
-                    echo "Current Git branch is: ${branch}"
+                    echo "Git branch name: ${env.GIT_BRANCH}"
                 }
             }
         }
